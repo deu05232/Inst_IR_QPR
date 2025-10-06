@@ -1,18 +1,7 @@
-# Tevatron
+#!/bin/bash
 
-This repository modifies the tevatron (promptriever version) by adding a regularization term, with both MSE and KL divergence variants implemented.
-
-## Installation
-
-```bash
-pip install -e .
-```
-
-## Training
-
-### Repllama
-```bash
-nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train.py \
+# Repllama
+nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train_weight.py \
   --deepspeed deepspeed/ds_zero3_config.json \
   --output_dir repllama-1B-no_weight \
   --model_name_or_path meta-llama/Llama-3.2-1B \
@@ -44,10 +33,10 @@ nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" tra
   --dataset_cache_dir /workspace/cache \
   --dont_shuffle \
   --negatives_first_n 3' > logs/train.log 2>&1 &
-```
 
-### Promptriever
-```bash
+
+
+# Promptriever
 nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train.py \
   --deepspeed deepspeed/ds_zero3_config.json \
   --output_dir promptriever-1B-no_weight \
@@ -80,11 +69,9 @@ nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" tra
   --dataset_cache_dir /workspace/cache \
   --dont_shuffle \
   --negatives_first_n 3' > logs/train.log 2>&1 &
-```
 
-### w/ Regularization
-```bash
-# This version used in the paper
+
+# w/ Regularization (MSE)
 nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train.py \
   --deepspeed deepspeed/ds_zero3_config.json \
   --output_dir fixed_promptriever-1B-idea3-MSE \
@@ -118,6 +105,8 @@ nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" tra
   --dont_shuffle \
   --negatives_first_n 3' > logs/train.log 2>&1 &
 
+
+# w/ Regularization (KL Divergence)
 nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train.py \
   --deepspeed deepspeed/ds_zero3_config.json \
   --output_dir promptriever-1B-idea3-reduced_KL \
@@ -150,5 +139,4 @@ nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" tra
   --dataset_cache_dir /workspace/cache \
   --dont_shuffle \
   --negatives_first_n 3' > logs/train.log 2>&1 &
-
-```
+  

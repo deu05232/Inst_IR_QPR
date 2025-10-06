@@ -18,6 +18,7 @@ class SimpleContrastiveLoss:
             target = torch.arange(
                 0, x.size(0) * target_per_qry, target_per_qry, device=x.device, dtype=torch.long)
         logits = torch.matmul(x, y.transpose(0, 1))
+        print(x.shape, )
         return F.cross_entropy(logits, target, reduction=reduction)
 
 
@@ -92,7 +93,7 @@ class GradCacheTrainer(TevatronTrainer):
         model.train()
         queries, passages = self._prepare_inputs(inputs)
         queries, passages = {'query': queries}, {'passage': passages}
-
+        
         _distributed = self.args.local_rank > -1
         self.gc.models = [model, model]
         loss = self.gc(queries, passages, no_sync_except_last=_distributed)

@@ -10,10 +10,14 @@ from transformers import (
 
 from tevatron.retriever.arguments import ModelArguments, DataArguments, \
     TevatronTrainingArguments as TrainingArguments
+    
+################################ 수정
 from tevatron.retriever.dataset import TrainDataset
 from tevatron.retriever.collator import TrainCollator
 from tevatron.retriever.modeling import DenseModel
-from tevatron.retriever.trainer import TevatronTrainer as Trainer
+from tevatron.retriever.trainer import TevatronTrainer as TevatronTrainer_w_Pairwise
+################################
+
 from tevatron.retriever.gc_trainer import GradCacheTrainer as GCTrainer
 
 logger = logging.getLogger(__name__)
@@ -79,7 +83,7 @@ def main():
     train_dataset = TrainDataset(data_args)
     collator = TrainCollator(data_args, tokenizer)
 
-    trainer_cls = GCTrainer if training_args.grad_cache else Trainer
+    trainer_cls = GCTrainer if training_args.grad_cache else TevatronTrainer_w_Pairwise
     trainer = trainer_cls(
         model=model,
         args=training_args,
