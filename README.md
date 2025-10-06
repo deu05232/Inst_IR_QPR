@@ -6,6 +6,8 @@ This repository modifies the tevatron (promptriever version) by adding a regular
 
 ```bash
 pip install -e .
+
+cd src/tevatron/retriever
 ```
 
 ## Training
