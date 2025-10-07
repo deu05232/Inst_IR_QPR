@@ -1,6 +1,6 @@
 # Tevatron
 
-This repository modifies the tevatron (promptriever version) by adding a regularization term, with both MSE and KL divergence variants implemented.
+This repository modifies the tevatron (promptriever version) by adding a regularization term.
 
 ## Installation
 
@@ -84,7 +84,7 @@ nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" tra
   --negatives_first_n 3' > logs/train.log 2>&1 &
 ```
 
-### w/ Regularization (KL divergence)
+### w/ Regularization
 ```bash
 nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train.py \
   --deepspeed deepspeed/ds_zero3_config.json \
@@ -118,12 +118,9 @@ nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" tra
   --dataset_cache_dir /workspace/cache \
   --dont_shuffle \
   --negatives_first_n 3' > logs/train.log 2>&1 &
-```
 
 
-### w/ Regularization (MSE)
-```bash
-nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train.py \
+  nohup bash -c 'deepspeed --include localhost:"0,1,2,3" --master_port "60001" train.py \
   --deepspeed deepspeed/ds_zero3_config.json \
   --output_dir fixed_promptriever-1B-idea3-MSE \
   --model_name_or_path meta-llama/Llama-3.2-1B \
